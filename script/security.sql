@@ -29,7 +29,7 @@ GRANT INSERT ON SALES.Orders TO AHMED;
 GRANT INSERT ON FINANCE.Expenses TO AHMED;
 
 ------------------------------------------------------------
--- 4. REVOKE PERMISSIONS (if needed)
+-- 4. REVOKE PERMISSIONS 
 ------------------------------------------------------------
 
 -- HALA
