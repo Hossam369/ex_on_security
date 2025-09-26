@@ -1,7 +1,8 @@
+------------------------------------------------------------
+-- 1. CREATE TABLES
+------------------------------------------------------------
 
----------- CREATE TABELS  ----------
-
--- Employees table
+-- HR Schema
 CREATE TABLE HR.Employees (
     EmpID INT PRIMARY KEY IDENTITY(1,1),
     FirstName NVARCHAR(50),
@@ -11,14 +12,12 @@ CREATE TABLE HR.Employees (
     DepartmentID INT
 );
 
--- Departments table
 CREATE TABLE HR.Departments (
     DepartmentID INT PRIMARY KEY IDENTITY(1,1),
     DepartmentName NVARCHAR(100)
 );
 
-
--- Salaries table
+-- FINANCE Schema
 CREATE TABLE FINANCE.Salaries (
     EmpID INT,
     Salary DECIMAL(10,2),
@@ -26,7 +25,6 @@ CREATE TABLE FINANCE.Salaries (
     PRIMARY KEY (EmpID, PayDate)
 );
 
--- Expenses table
 CREATE TABLE FINANCE.Expenses (
     ExpenseID INT PRIMARY KEY IDENTITY(1,1),
     ExpenseType NVARCHAR(100),
@@ -34,8 +32,7 @@ CREATE TABLE FINANCE.Expenses (
     ExpenseDate DATE
 );
 
-
--- Customers table
+-- SALES Schema
 CREATE TABLE SALES.Customers (
     CustomerID INT PRIMARY KEY IDENTITY(1,1),
     CustomerName NVARCHAR(100),
@@ -43,7 +40,6 @@ CREATE TABLE SALES.Customers (
     Phone NVARCHAR(20)
 );
 
--- Orders table
 CREATE TABLE SALES.Orders (
     OrderID INT PRIMARY KEY IDENTITY(1,1),
     CustomerID INT,
@@ -52,8 +48,11 @@ CREATE TABLE SALES.Orders (
     FOREIGN KEY (CustomerID) REFERENCES SALES.Customers(CustomerID)
 );
 
-----------------------INSERT VALUES--------------
--- Insert Departments
+------------------------------------------------------------
+-- 2. INSERT VALUES
+------------------------------------------------------------
+
+-- Departments
 INSERT INTO HR.Departments (DepartmentName)
 VALUES 
 ('Human Resources'),
@@ -61,14 +60,13 @@ VALUES
 ('Sales'),
 ('IT Support');
 
--- Insert Employees
+-- Employees
 INSERT INTO HR.Employees (FirstName, LastName, Position, HireDate, DepartmentID)
 VALUES
 ('Ali', 'Hassan', 'HR Manager', '2020-05-01', 1),
 ('Mona', 'Ibrahim', 'Accountant', '2021-03-15', 2),
 ('Omar', 'Khaled', 'Sales Rep', '2022-01-10', 3),
 ('Sara', 'Nabil', 'IT Specialist', '2019-07-20', 4);
-
 
 -- Salaries
 INSERT INTO FINANCE.Salaries (EmpID, Salary, PayDate)
@@ -99,11 +97,12 @@ VALUES
 (2, '2023-09-13', 2500.00),
 (3, '2023-09-14', 900.75);
 
-SELECT * FROM SALES.Customers;
-SELECT * FROM SALES.Orders;
-
-SELECT * FROM FINANCE.Expenses ;
-SELECT * FROM FINANCE.Expenses;
-
+------------------------------------------------------------
+-- Optional: SELECT TO VERIFY
+------------------------------------------------------------
 SELECT * FROM HR.Departments;
 SELECT * FROM HR.Employees;
+SELECT * FROM FINANCE.Salaries;
+SELECT * FROM FINANCE.Expenses;
+SELECT * FROM SALES.Customers;
+SELECT * FROM SALES.Orders;
