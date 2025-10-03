@@ -3,12 +3,14 @@
 ------------------------------------------------------------
 CREATE LOGIN HOSSAM_SERVER WITH PASSWORD = '123456';
 CREATE LOGIN AHMED_SERVER WITH PASSWORD = '123456';
+CREATE LOGIN MOHAMED_SERVER WITH PASSWORD = '123456';
 
 ------------------------------------------------------------
 -- 2. CREATE USERS
 ------------------------------------------------------------
 CREATE USER HALA FOR LOGIN HOSSAM_SERVER;
 CREATE USER AHMED FOR LOGIN AHMED_SERVER;
+CREATE USER HOSSAM FOR LOGIN MOHAMED_SERVER;
 
 ------------------------------------------------------------
 -- 3. GRANT PERMISSIONS
@@ -28,6 +30,14 @@ GRANT INSERT ON SALES.Customers TO AHMED;
 GRANT INSERT ON SALES.Orders TO AHMED;
 GRANT INSERT ON FINANCE.Expenses TO AHMED;
 
+-- HOSSAM: Update access
+GRANT UPDATE ON HR.Employees   TO HOSSAM;
+GRANT UPDATE ON HR.Departments TO HOSSAM;
+GRANT UPDATE ON SALES.Customers TO HOSSAM;
+GRANT UPDATE ON SALES.Orders    TO HOSSAM;
+GRANT UPDATE ON FINANCE.Expenses TO HOSSAM;
+GRANT UPDATE ON FINANCE.Salaries TO HOSSAM;
+
 ------------------------------------------------------------
 -- 4. REVOKE PERMISSIONS 
 ------------------------------------------------------------
@@ -45,3 +55,11 @@ REVOKE INSERT ON HR.Departments FROM AHMED;
 REVOKE INSERT ON SALES.Customers FROM AHMED;
 REVOKE INSERT ON SALES.Orders FROM AHMED;
 REVOKE INSERT ON FINANCE.Expenses FROM AHMED;
+
+-- HOSSAM
+REVOKE UPDATE ON HR.Employees   FROM HOSSAM;
+REVOKE UPDATE ON HR.Departments FROM HOSSAM;
+REVOKE UPDATE ON SALES.Customers FROM HOSSAM;
+REVOKE UPDATE ON SALES.Orders    FROM HOSSAM;
+REVOKE UPDATE ON FINANCE.Expenses FROM HOSSAM;
+REVOKE UPDATE ON FINANCE.Salaries FROM HOSSAM;
