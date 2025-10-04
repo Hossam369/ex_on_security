@@ -1,27 +1,59 @@
 ------------------------------------------------------------
--- DATABASE & SCHEMAS INITIALIZATION
+-- Project: GUEST Database Initialization
+-- Description: Database setup script for HR, Finance, and Sales modules
 ------------------------------------------------------------
 
--- 1. CREATE DATABASE
+/*
+------------------------------------------------------------
+ USERS & ROLES (Permissions Overview)
+------------------------------------------------------------
+
+1. HOSSAM  (Login: HOSSAM_SERVER)
+   - Role: Read-only user
+   - Permissions:
+       SELECT on HR.Employees, HR.Departments
+       SELECT on SALES.Customers, SALES.Orders
+       SELECT on FINANCE.Expenses, FINANCE.Salaries
+
+2. AHMED   (Login: AHMED_SERVER)
+   - Role: Data entry (Insert user)
+   - Permissions:
+       INSERT on HR.Employees, HR.Departments
+       INSERT on SALES.Customers, SALES.Orders
+       INSERT on FINANCE.Expenses
+       SELECT on FINANCE.Salaries (for reference)
+
+3. MOHAMED (Login: MOHAMED_SERVER)
+   - Role: Data maintainer (Update user)
+   - Permissions:
+       SELECT, UPDATE on HR.Employees, HR.Departments
+       SELECT, UPDATE on SALES.Customers, SALES.Orders
+       SELECT, UPDATE on FINANCE.Expenses, FINANCE.Salaries
+------------------------------------------------------------
+*/
+
+------------------------------------------------------------
+-- 1. CREATE DATABASE & SCHEMAS
+------------------------------------------------------------
 CREATE DATABASE GUEST;
 GO
 
 USE GUEST;
 GO
 
--- 2. CREATE SCHEMAS
-CREATE SCHEMA SALES;
+-- Schemas
+CREATE SCHEMA HR;
 GO
 
 CREATE SCHEMA FINANCE;
 GO
 
-CREATE SCHEMA HR;
+CREATE SCHEMA SALES;
 GO
 
 
 ------------------------------------------------------------
--- TABLES CREATION
+-- 2. TABLES CREATION
 ------------------------------------------------------------
 
 -- HR Schema
@@ -72,7 +104,7 @@ CREATE TABLE SALES.Orders (
 
 
 ------------------------------------------------------------
--- INSERT INITIAL DATA
+-- 3. INSERT INITIAL DATA
 ------------------------------------------------------------
 
 -- Departments
@@ -122,7 +154,7 @@ VALUES
 
 
 ------------------------------------------------------------
--- CREATE LOGINS & USERS
+-- 4. CREATE LOGINS & USERS
 ------------------------------------------------------------
 
 -- Logins
@@ -131,69 +163,42 @@ CREATE LOGIN AHMED_SERVER   WITH PASSWORD = '123456';
 CREATE LOGIN MOHAMED_SERVER WITH PASSWORD = '123456';
 
 -- Users
-CREATE USER HALA   FOR LOGIN HOSSAM_SERVER;
-CREATE USER AHMED  FOR LOGIN AHMED_SERVER;
-CREATE USER HOSSAM FOR LOGIN MOHAMED_SERVER;
+CREATE USER HOSSAM   FOR LOGIN HOSSAM_SERVER;
+CREATE USER AHMED    FOR LOGIN AHMED_SERVER;
+CREATE USER MOHAMED  FOR LOGIN MOHAMED_SERVER;
 
 
 ------------------------------------------------------------
--- GRANT PERMISSIONS
+-- 5. GRANT PERMISSIONS
 ------------------------------------------------------------
 
--- HALA: Read-only access
-GRANT SELECT ON HR.Employees   TO HALA;
-GRANT SELECT ON HR.Departments TO HALA;
-GRANT SELECT ON SALES.Customers TO HALA;
-GRANT SELECT ON SALES.Orders    TO HALA;
-GRANT SELECT ON FINANCE.Expenses TO HALA;
-GRANT SELECT ON FINANCE.Salaries TO HALA;
+-- HOSSAM: Read-only access
+GRANT SELECT ON HR.Employees    TO HOSSAM;
+GRANT SELECT ON HR.Departments  TO HOSSAM;
+GRANT SELECT ON SALES.Customers TO HOSSAM;
+GRANT SELECT ON SALES.Orders    TO HOSSAM;
+GRANT SELECT ON FINANCE.Expenses TO HOSSAM;
+GRANT SELECT ON FINANCE.Salaries TO HOSSAM;
 
 -- AHMED: Write access
-GRANT INSERT ON HR.Employees   TO AHMED;
-GRANT INSERT ON HR.Departments TO AHMED;
+GRANT INSERT ON HR.Employees    TO AHMED;
+GRANT INSERT ON HR.Departments  TO AHMED;
 GRANT INSERT ON SALES.Customers TO AHMED;
 GRANT INSERT ON SALES.Orders    TO AHMED;
 GRANT INSERT ON FINANCE.Expenses TO AHMED;
 GRANT SELECT ON FINANCE.Salaries TO AHMED;
 
--- HOSSAM: Update access
-GRANT UPDATE ON HR.Employees   TO HOSSAM;
-GRANT UPDATE ON HR.Departments TO HOSSAM;
-GRANT UPDATE ON SALES.Customers TO HOSSAM;
-GRANT UPDATE ON SALES.Orders    TO HOSSAM;
-GRANT UPDATE ON FINANCE.Expenses TO HOSSAM;
-GRANT UPDATE ON FINANCE.Salaries TO HOSSAM;
+-- MOHAMED: Update access
+GRANT SELECT,UPDATE ON HR.Employees    TO MOHAMED;
+GRANT SELECT,UPDATE ON HR.Departments  TO MOHAMED;
+GRANT SELECT,UPDATE ON SALES.Customers TO MOHAMED;
+GRANT SELECT,UPDATE ON SALES.Orders    TO MOHAMED;
+GRANT SELECT,UPDATE ON FINANCE.Expenses TO MOHAMED;
+GRANT SELECT,UPDATE ON FINANCE.Salaries TO MOHAMED;
 
 
 ------------------------------------------------------------
--- OPTIONAL: REVOKE PERMISSIONS
-------------------------------------------------------------
-
--- HALA
-REVOKE SELECT ON HR.Employees   FROM HALA;
-REVOKE SELECT ON HR.Departments FROM HALA;
-REVOKE SELECT ON SALES.Customers FROM HALA;
-REVOKE SELECT ON SALES.Orders    FROM HALA;
-REVOKE SELECT ON FINANCE.Expenses FROM HALA;
-
--- AHMED
-REVOKE INSERT ON HR.Employees   FROM AHMED;
-REVOKE INSERT ON HR.Departments FROM AHMED;
-REVOKE INSERT ON SALES.Customers FROM AHMED;
-REVOKE INSERT ON SALES.Orders    FROM AHMED;
-REVOKE INSERT ON FINANCE.Expenses FROM AHMED;
-
--- HOSSAM
-REVOKE UPDATE ON HR.Employees   FROM HOSSAM;
-REVOKE UPDATE ON HR.Departments FROM HOSSAM;
-REVOKE UPDATE ON SALES.Customers FROM HOSSAM;
-REVOKE UPDATE ON SALES.Orders    FROM HOSSAM;
-REVOKE UPDATE ON FINANCE.Expenses FROM HOSSAM;
-REVOKE UPDATE ON FINANCE.Salaries FROM HOSSAM;
-
-
-------------------------------------------------------------
--- VERIFY DATA (OPTIONAL)
+-- 6. VERIFY DATA (OPTIONAL)
 ------------------------------------------------------------
 SELECT * FROM HR.Departments;
 SELECT * FROM HR.Employees;
