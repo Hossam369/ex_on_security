@@ -1,4 +1,31 @@
 ------------------------------------------------------------
+-- PROJECT: GUEST_TEST Database Initialization
+-- DESCRIPTION:
+--   This script creates a sample database with HR, SALES,
+--   and FINANCE schemas. It inserts initial data, creates
+--   logins/users, assigns roles, and defines stored procedures.
+--
+-- USERS & ROLES
+--   1. HALA (Login: HALA_SERVER)
+--      - Role: Read-Only User
+--      - Permissions: SELECT on Employees, Departments,
+--                     Customers, Orders, Expenses, Salaries
+--
+--   2. HANAA (Login: HANAA_SERVER)
+--      - Role: Data Entry User
+--      - Permissions: INSERT into Employees, Departments,
+--                     Customers, Orders, Expenses
+--                     SELECT on Salaries
+--
+--   3. ASMAA (Login: ASMAA_SERVER)
+--      - Role: Procedure Executor
+--      - Permissions: EXECUTE on all update procedures
+--                     (Employees, Departments, Customers,
+--                      Orders, Expenses, Salaries)
+------------------------------------------------------------
+
+
+------------------------------------------------------------
 -- DATABASE & SCHEMAS INITIALIZATION
 ------------------------------------------------------------
 
@@ -21,7 +48,7 @@ GO
 
 
 ------------------------------------------------------------
---  TABLES CREATION
+-- TABLES CREATION
 ------------------------------------------------------------
 
 -- HR Schema
@@ -72,7 +99,7 @@ CREATE TABLE SALES.Orders (
 
 
 ------------------------------------------------------------
---  INSERT INITIAL DATA
+-- INSERT INITIAL DATA
 ------------------------------------------------------------
 
 -- Departments
@@ -122,13 +149,13 @@ VALUES
 
 
 ------------------------------------------------------------
---  CREATE LOGINS & USERS
+-- CREATE LOGINS & USERS
 ------------------------------------------------------------
 
 -- Logins
-CREATE LOGIN HALA_SERVER   WITH PASSWORD = '123456';
-CREATE LOGIN HANAA_SERVER  WITH PASSWORD = '123456';
-CREATE LOGIN ASMAA_SERVER  WITH PASSWORD = '123456';
+CREATE LOGIN HALA_SERVER  WITH PASSWORD = '123456';
+CREATE LOGIN HANAA_SERVER WITH PASSWORD = '123456';
+CREATE LOGIN ASMAA_SERVER WITH PASSWORD = '123456';
 
 -- Users
 CREATE USER HALA   FOR LOGIN HALA_SERVER;
@@ -137,7 +164,7 @@ CREATE USER ASMAA  FOR LOGIN ASMAA_SERVER;
 
 
 ------------------------------------------------------------
--- 📌 GRANT PERMISSIONS
+-- GRANT PERMISSIONS
 ------------------------------------------------------------
 
 -- HALA: Read-only access
@@ -148,7 +175,7 @@ GRANT SELECT ON SALES.Orders     TO HALA;
 GRANT SELECT ON FINANCE.Expenses TO HALA;
 GRANT SELECT ON FINANCE.Salaries TO HALA;
 
--- HANAA: Write (INSERT + SELECT salaries)
+-- HANAA: Data entry (Insert + select salaries)
 GRANT INSERT ON HR.Employees     TO HANAA;
 GRANT INSERT ON HR.Departments   TO HANAA;
 GRANT INSERT ON SALES.Customers  TO HANAA;
@@ -158,7 +185,7 @@ GRANT SELECT ON FINANCE.Salaries TO HANAA;
 
 
 ------------------------------------------------------------
---  CREATE STORED PROCEDURES FOR UPDATES (ASMAA)
+-- CREATE STORED PROCEDURES FOR UPDATES (ASMAA)
 ------------------------------------------------------------
 
 -- HR
@@ -235,11 +262,11 @@ GO
 
 
 ------------------------------------------------------------
---  GRANT EXECUTE TO ASMAA (ONLY ON PROCEDURES)
+-- GRANT EXECUTE TO ASMAA (ONLY ON PROCEDURES)
 ------------------------------------------------------------
-GRANT EXECUTE ON HR.UpdateEmployeePosition  TO ASMAA;
-GRANT EXECUTE ON HR.UpdateDepartmentName    TO ASMAA;
-GRANT EXECUTE ON SALES.UpdateCustomer       TO ASMAA;
-GRANT EXECUTE ON SALES.UpdateOrderAmount    TO ASMAA;
-GRANT EXECUTE ON FINANCE.UpdateExpense      TO ASMAA;
-GRANT EXECUTE ON FINANCE.UpdateSalary       TO ASMAA;
+GRANT EXECUTE ON HR.UpdateEmployeePosition TO ASMAA;
+GRANT EXECUTE ON HR.UpdateDepartmentName   TO ASMAA;
+GRANT EXECUTE ON SALES.UpdateCustomer      TO ASMAA;
+GRANT EXECUTE ON SALES.UpdateOrderAmount   TO ASMAA;
+GRANT EXECUTE ON FINANCE.UpdateExpense     TO ASMAA;
+GRANT EXECUTE ON FINANCE.UpdateSalary      TO ASMAA;
