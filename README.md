@@ -1,6 +1,6 @@
 # GUEST_TEST Database Project
 
-## 📌 Overview
+## Overview
 This project contains a sample SQL Server database (`GUEST_TEST`) with three main schemas:
 - **HR**: Departments & Employees  
 - **SALES**: Customers & Orders  
@@ -13,7 +13,7 @@ The database includes:
 
 ---
 
-## 👤 Users & Roles
+##  Users & Roles
 
 ### 1. **HALA** (Login: `HALA_SERVER`)
 - **Role**: Read-Only User  
@@ -33,7 +33,7 @@ The database includes:
 
 ---
 
-## ⚙️ How to Use
+##  How to Use
 1. Run the SQL script `guest_test_init.sql` in SQL Server Management Studio (SSMS).  
 2. Log in with one of the created users (`HALA_SERVER`, `HANAA_SERVER`, or `ASMAA_SERVER`).  
 3. Test permissions:  
